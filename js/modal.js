@@ -5,41 +5,19 @@
  * YILING CHEN.
  * Copyright 2022, MIT License.
  * How to use it:
- * // <outside-element data-modal-box>
- * //   <inside-element data-modal-content></inside-element>
- * // </outside-element>
- * 
- * -----------------------------------or-----------------------------------
- * In JavaScript, using the addEventListener() method:
- * selector.addEventListener('click', function(){ 
- *    new Modal(id); 
- * });
- * -----------------------------------or-----------------------------------
- * In JavaScript:
- * selector.onclick = function() {
- *  new Modal(id);
- * }
- * -----------------------------------or-----------------------------------
- * In HTML; Inline JavaScript onclick function:
- * <element onclick="yourFnName()">
- * <element onclick="(function(){ return new Modal(id, true)})(); return false;">
- * <script>
- * function yourFnName() {
- *    return new Modal(id)
- * }
- * </script>
- * ========================================================================
+ * see README.md
  */
 
-// Defined "self"
-var self;
+// Defined "self" in Global
+let self;
 // Create a ES6 Class
 class Modal {
   // constructor
-  constructor(box, onoff = false) {
+  constructor(box, onoff = false, callback) {
     self = this;
     this.box = box;
     this.onoff = onoff;
+    this.callback = callback;
     this.onInit();
   }
   get selector() {
@@ -63,29 +41,30 @@ class Modal {
     }
   }
 
-  // set styles() {
-
-  // }
+  set styles(value) {
+    this.styles = value;
+  }
   stylize() {
+    if (this.callback) return;
     if (this.onoff) return;
     for (var key in this.styles) {
       this.selector.style[key] = this.styles[key];
     }
   }
   onclick() {
-    console.log(this);
-
+    if (self.callback) self.callback();
+    if (!this.selector) return;
     this.selector.addEventListener("click", function (event) {
-      console.log(self.onoff);
-      console.log(self.selector);
       if (self.onoff) {
         event.stopImmediatePropagation();
+        event.target.parentNode.style.display = self.onoff ? "block" : "none";
         self.onoff = !self.onoff;
-        console.log(self.selector)
         return;
-      };
+      }
       event.stopImmediatePropagation();
-      self.selector.style.display = self.onoff ? "block" : "none";
+      console.log("self.selector: ", self.selector);
+      console.log("event.target: ", event.target);
+      event.target.style.display = self.onoff ? "block" : "none";
     }, false)
   }
   onInit() {
