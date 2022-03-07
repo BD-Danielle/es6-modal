@@ -18,13 +18,18 @@ class Modal {
     this.box = box;
     this.onoff = onoff;
     this.callback = callback;
+    this.styles_;
     this.onInit();
   }
   get selector() {
     return document.querySelector(this.box);
   }
   set selector(value) {
-    this.selector.style.display = value;
+    if (value) {
+      for (var key in value) {
+        this.selector.style[key] = value[key];
+      }
+    }
   }
   get styles() {
     return {
@@ -42,7 +47,11 @@ class Modal {
   }
 
   set styles(value) {
-    this.styles = value;
+    if (value && !this.onoff) {
+      for (var key in value) {
+        this.selector.style[key] = value[key];
+      }
+    }
   }
   stylize() {
     if (this.callback) return;

@@ -11,10 +11,16 @@
 </head>
 <script>
   // window.addEventListener('DOMContentLoaded', function () {
-  var id, bool, callback;
+  var id, bool, callback, fn;
 
   function modalTrigger(id, bool, callback) {
-    return new Modal(id, bool, callback);
+    fn = new Modal(id, bool, callback);
+    // it's allowed css setting
+    fn.styles = {
+      backgroundColor: "rgb(214, 147, 147, 0.7)"
+    }
+    console.log(fn.styles);
+    return fn;
   }
   // })
 </script>
@@ -26,7 +32,7 @@
     color: #160808;
     text-align: center;
     line-height: 150px;
-    background-color: #d69393;
+    background-color: rgb(214, 147, 147);
     border-radius: 5px;
     cursor: pointer;
   }
@@ -62,7 +68,8 @@
       </form>
 
       <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-        <button type="button" class="w3-button w3-red">Cancel</button>
+        <button id="model-cancel" type="button" class="w3-button w3-red"
+          onclick="modalTrigger('#model-box', false, function(){document.querySelector('#modal-box').click(); return;});">Cancel</button>
         <span class="w3-right w3-padding w3-hide-small">Forgot <a href="#">password?</a></span>
       </div>
 
