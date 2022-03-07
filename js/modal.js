@@ -6,15 +6,16 @@
  * Copyright 2022, MIT License.
  * How to use it:
  * see README.md
+ * ========================================================================
  */
 
-// Defined "self" in Global
-let self;
+// Defined "self_modal" in Global
+let self_modal;
 // Create a ES6 Class
 class Modal {
   // constructor
   constructor(box, onoff = false, callback) {
-    self = this;
+    self_modal = this;
     this.box = box;
     this.onoff = onoff;
     this.callback = callback;
@@ -60,24 +61,24 @@ class Modal {
     }
   }
   onclick() {
-    if (self.callback) self.callback();
+    if (self_modal.callback) self_modal.callback();
     if (!this.selector) return;
     this.selector.addEventListener("click", function (event) {
       event.stopImmediatePropagation();
-      if (typeof (self.onoff) !== "boolean") return;
-      if (self.onoff) {
-        console.log("74 self.selector: ", self.selector);
+      if (typeof (self_modal.onoff) !== "boolean") return;
+      if (self_modal.onoff) {
+        console.log("74 self_modal.selector: ", self_modal.selector);
         console.log("75 event.target: ", event.target);
-        event.target.parentNode.style.display = self.onoff ? "block" : "none";
-        self.onoff = !self.onoff;
+        event.target.parentNode.style.display = self_modal.onoff ? "block" : "none";
+        self_modal.onoff = !self_modal.onoff;
         return;
       }
-      if (self.selector == event.target && self.onoff) {
+      if (self_modal.selector == event.target && self_modal.onoff) {
         event.target.style.display = "none";
         return;
       }
-      console.log("82: ", self.onoff);
-      event.target.style.display = self.onoff ? "block" : "none";
+      console.log("82: ", self_modal.onoff);
+      event.target.style.display = self_modal.onoff ? "block" : "none";
     }, false)
   }
   onInit() {
