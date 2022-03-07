@@ -19,7 +19,6 @@
     fn.styles = {
       backgroundColor: "rgb(214, 147, 147, 0.7)"
     }
-    console.log(fn.styles);
     return fn;
   }
   // })
@@ -44,7 +43,7 @@
 
 <body>
   <!-- <div class="btn" onclick="modalTrigger();">點我出現屏障</div> -->
-  <div class="btn" onclick="modalTrigger('#modal-box');">點我出現屏障</div>
+  <div class="btn" onclick="modalTrigger('#modal-box', null);">點我出現屏障</div>
   <div id="modal-box" style="display: none;">
     <div id="modal-content" onclick="modalTrigger('#modal-content', true);"
       class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">

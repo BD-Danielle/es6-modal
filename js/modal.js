@@ -45,9 +45,8 @@ class Modal {
       backgroundColor: "rgba(0,0,0,0.7)" // Black w/ opacity
     }
   }
-
   set styles(value) {
-    if (value && !this.onoff) {
+    if (value && !this.onoff && this.selector) {
       for (var key in value) {
         this.selector.style[key] = value[key];
       }
@@ -55,7 +54,7 @@ class Modal {
   }
   stylize() {
     if (this.callback) return;
-    if (this.onoff) return;
+    if (this.onoff && typeof (this.onoff) == "boolean") return;
     for (var key in this.styles) {
       this.selector.style[key] = this.styles[key];
     }
@@ -64,15 +63,20 @@ class Modal {
     if (self.callback) self.callback();
     if (!this.selector) return;
     this.selector.addEventListener("click", function (event) {
+      event.stopImmediatePropagation();
+      if (typeof (self.onoff) !== "boolean") return;
       if (self.onoff) {
-        event.stopImmediatePropagation();
+        console.log("74 self.selector: ", self.selector);
+        console.log("75 event.target: ", event.target);
         event.target.parentNode.style.display = self.onoff ? "block" : "none";
         self.onoff = !self.onoff;
         return;
       }
-      event.stopImmediatePropagation();
-      console.log("self.selector: ", self.selector);
-      console.log("event.target: ", event.target);
+      if (self.selector == event.target && self.onoff) {
+        event.target.style.display = "none";
+        return;
+      }
+      console.log("82: ", self.onoff);
       event.target.style.display = self.onoff ? "block" : "none";
     }, false)
   }
