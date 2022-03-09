@@ -10,18 +10,19 @@
   <title>Modal</title>
 </head>
 <script>
-  // window.addEventListener('DOMContentLoaded', function () {
-  var id, bool, callback, fn;
+  window.addEventListener('load', function (event) {
+    var id, bool, callback, fn;
 
-  function modalTrigger(id, bool, callback) {
-    fn = new Modal(id, bool, callback);
-    // it's allowed css setting
-    fn.styles = {
-      backgroundColor: "rgb(214, 147, 147, 0.7)"
+    function modalTrigger(id, bool, callback) {
+      fn = new Modal(id, bool, callback);
+      // it's allowed css setting
+      //fn.styles = {
+      //  backgroundColor: "rgb(214, 147, 147, 0.7)"
+      //}
+      return fn;
     }
-    return fn;
-  }
-  // })
+    window.modalTrigger = modalTrigger;
+  })
 </script>
 <style>
   .btn {
@@ -48,9 +49,10 @@
     <div id="modal-content" onclick="modalTrigger('#modal-content', true);"
       class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
       <div class="w3-center"><br>
-        <span class="w3-button w3-xlarge w3-transparent w3-display-topright" id="model-close"
-          onclick="modalTrigger('#model-box', false, function(){document.querySelector('#modal-box').click(); return;});"
-          title="Close Modal">×</span>
+        <span class="w3-button w3-xlarge w3-transparent w3-display-topright"
+          onclick="modalTrigger(null, false, '#modal-box');" title="Close Modal">×</span>
+        <!-- <span id="modal-close" class="w3-button w3-xlarge w3-transparent w3-display-topright"
+          onclick="modalTrigger('#model-box', false, '#model-box');" title="Close Modal">×</span> -->
         <img src="img_avatar4.png" alt="Avatar" style="width:30%" class="w3-circle w3-margin-top">
       </div>
 
@@ -67,8 +69,8 @@
       </form>
 
       <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-        <button id="model-cancel" type="button" class="w3-button w3-red"
-          onclick="modalTrigger('#model-box', false, function(){document.querySelector('#modal-box').click(); return;});">Cancel</button>
+        <button type="button" class="w3-button w3-red"
+          onclick="modalTrigger('#modal-box', false, function(){document.querySelector('#modal-box').click(); return;});">Cancel</button>
         <span class="w3-right w3-padding w3-hide-small">Forgot <a href="#">password?</a></span>
       </div>
 
