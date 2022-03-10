@@ -68,18 +68,14 @@ class Modal {
   onclick() {
     if (this.getType(this.callback) == "function") this.callback();
     if (!this.selector) {
-      if (this.getType(this.callback) == "string") document.querySelector(this.callback).click();
+      if (this.getType(this.callback) == "string") document.querySelector(this.callback).style.display = "none";
       return;
     };
     this.selector.addEventListener("click", function (event) {
       event.stopImmediatePropagation();
       if (self_modal.getType(self_modal.onoff) !== "boolean") return;
       if (self_modal.onoff) return;
-      console.log("72 self_modal.selector: ", self_modal.selector);
-      console.log("73 event.target: ", event.target);
-      console.log("74: ", self_modal.onoff);
       if (self_modal.selector == event.target) {
-        console.log("self_modal.selector == event.target");
         self_modal.selector.style.display = "none";
         return;
       }
@@ -87,7 +83,7 @@ class Modal {
     }, false)
   }
   onInit() {
-    this.stylize();
     this.onclick();
+    this.stylize();
   }
 }
