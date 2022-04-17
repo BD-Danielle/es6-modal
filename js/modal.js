@@ -67,10 +67,10 @@ class Modal {
   }
   onclick() {
     if (this.getType(this.callback) == "function") this.callback();
-    if (!this.selector) {
-      if (this.getType(this.callback) == "string") document.querySelector(this.callback).style.display = "none";
+    if (!this.selector && this.getType(this.callback) == "string") {
+      document.querySelector(this.callback).style.display = "none";
       return;
-    };
+    }
     this.selector.addEventListener("click", function (event) {
       event.stopImmediatePropagation();
       if (self_modal.getType(self_modal.onoff) !== "boolean") return;

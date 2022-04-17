@@ -11,17 +11,17 @@
 </head>
 <script>
   window.addEventListener('load', function (event) {
-    var id, bool, callback, fn;
+    // var id, bool, callback, fn;
 
-    function modalTrigger(id, bool, callback) {
+    window.modalTrigger = function(id, bool, callback) {
       fn = new Modal(id, bool, callback);
       // it's allowed css setting
       //fn.styles = {
       //  backgroundColor: "rgb(214, 147, 147, 0.7)"
       //}
       return fn;
-    }
-    window.modalTrigger = modalTrigger;
+    };
+    // window.modalTrigger = modalTrigger;
   })
 </script>
 <style>
@@ -44,7 +44,7 @@
 
 <body>
   <!-- <div class="btn" onclick="modalTrigger();">點我出現屏障</div> -->
-  <div class="btn" onclick="modalTrigger('#modal-box', null);">點我出現屏障</div>
+  <div class="btn" onclick="modalTrigger('#modal-box', false);">點我出現屏障</div>
   <div id="modal-box" style="display: none;">
     <div id="modal-content" onclick="modalTrigger('#modal-content', true);"
       class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
