@@ -1,8 +1,11 @@
  #  js-modal
  ###  LAYOUT
  ```html
-  <outside-element data-modal-box>
-    <inside-element-optional data-modal-content></inside-element-optional>
+  <btn-element onclick="modalTrigger('#modal-box', false);"></btn-element>
+  <outside-element id="modal-box" style="display: none;">
+    <inside-element-optional onclick="modalTrigger('#modal-content', true);">
+      <btn-close onclick="modalTrigger(null, false, '#modal-box')"></btn-close>
+    </inside-element-optional>
   </outside-element>
  ```
   ### USAGE
@@ -25,8 +28,6 @@
  ```
  * In HTML and JavaScript:
 ```javascript
-  var id, bool(optional, default type is boolean), callback(optional, default type is function)
-
   function yourFnName(id, bool, callback) {
      return new Modal(id, bool, callback)
   }
