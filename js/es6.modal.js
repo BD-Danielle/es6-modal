@@ -19,7 +19,6 @@ class Modal {
     this.box = box;
     this.onoff = onoff;
     this.callback = callback;
-    this.styles_;
     this.onInit();
   }
   get selector() {
@@ -79,7 +78,6 @@ class Modal {
         self_modal.selector.style.display = "none";
         return;
       }
-      event.target.style.display = self_modal.onoff ? "block" : "none";
     }, false)
   }
   onInit() {
