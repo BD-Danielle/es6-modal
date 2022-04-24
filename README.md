@@ -37,5 +37,5 @@
 ```
 ### LOGIC
 1. args[0] as target.
-2. args[1] is boolean that leads to display(true, null) block, none(false or blank) (optional).
+2. args[1] is type boolean that is keeping display block (true, null) and vice versa (false or blank) (optional).
 3. args[2] is for extra work (optional).

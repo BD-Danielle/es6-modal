@@ -56,7 +56,6 @@ class Modal {
     return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();
   }
   stylize() {
-    if (this.callback) return;
     if (this.onoff && this.getType(this.onoff) == "boolean") return;
     if (this.selector) {
       for (var key in this.styles) {
@@ -65,19 +64,17 @@ class Modal {
     }
   }
   onclick() {
-    if (this.getType(this.callback) == "function") this.callback();
     if (!this.selector && this.getType(this.callback) == "string") {
       document.querySelector(this.callback).style.display = "none";
       return;
     }
+    if (this.getType(this.callback) == "function") this.callback();
     this.selector.addEventListener("click", function (event) {
       event.stopImmediatePropagation();
+      if (self_modal.getType(self_modal.callback) == "function") self_modal.callback();
       if (self_modal.getType(self_modal.onoff) !== "boolean") return;
       if (self_modal.onoff) return;
-      if (self_modal.selector == event.target) {
-        self_modal.selector.style.display = "none";
-        return;
-      }
+      if (self_modal.selector == event.target) self_modal.selector.style.display = "none";
     }, false)
   }
   onInit() {
