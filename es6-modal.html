@@ -6,8 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <script src="./js/es6.modal.backup.js"></script>
-  <title>Modal</title>
+  <script src="./js/es6.modal.js"></script>
+  <title>es6-modal</title>
 </head>
 <style>
   .btn {
@@ -28,14 +28,13 @@
 </style>
 
 <body>
-  <!-- <div class="btn" onclick="modalTrigger();">點我出現屏障</div> -->
-  <div class="btn" onclick="modalTrigger('#modal-box', false);">點我出現屏障</div>
-  <div id="modal-box" style="display: none;" onclick="modalTrigger('#modal-box', true);">
-    <div id="modal-content" onclick="modalTrigger('#modal-content', true);"
+  <div class="btn" data-modal="modal-box" data-bool="false" onclick="(function(){console.log(this)})();">點我出現屏障</div>
+  <div id="modal-box" style="display: none;" data-modal="modal-box" data-bool="true">
+    <div id="modal-content" data-modal="modal-content" data-bool="true"
       class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
       <div class="w3-center"><br>
         <span class="w3-button w3-xlarge w3-transparent w3-display-topright"
-          onclick="modalTrigger(null, false, '#modal-box')" title="Close Modal">×</span>
+          data-modal="modal-box" data-bool="null" title="Close Modal">×</span>
         <img src="img_avatar4.png" alt="Avatar" style="width:30%" class="w3-circle w3-margin-top">
       </div>
 
@@ -52,7 +51,7 @@
       </form>
 
       <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-        <button type="button" class="w3-button w3-red" onclick="modalTrigger(null, false, '#modal-box')">Cancel</button>
+        <button type="button" class="w3-button w3-red" data-modal="modal-box" data-bool="null">Cancel</button>
         <span class="w3-right w3-padding w3-hide-small">Forgot <a href="#">password?</a></span>
       </div>
 

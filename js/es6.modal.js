@@ -13,27 +13,30 @@
 let self_modal;
 // Create a ES6 Class
 class Modal {
+  // Static variables
   // constructor
-  constructor(box, onoff = false, callback) {
+  constructor(event) {
     self_modal = this;
-    this.box = box;
-    this.onoff = onoff;
-    this.callback = callback;
+    this.event = event;
     this.onInit();
   }
-  get selector() {
-    return document.querySelector(this.box);
+  get modal(){
+    return this.event.srcElement.dataset.modal;
   }
-  set selector(value) {
-    if (value) {
-      for (var key in value) {
-        this.selector.style[key] = value[key];
-      }
-    }
+  get boolStr(){
+    return this.event.srcElement.dataset.bool || this.event.srcElement.offsetParent.dataset.bool;
+  }
+  get id(){
+    return this.event.srcElement.id;
+  }
+  get target() {
+    return document.querySelector(`#${this.modal}`) || this.event.srcElement.offsetParent;
+  }
+  get selfClicked(){
+    return this.id == this.modal;
   }
   get styles() {
     return {
-      display: "block", //  Hidden by default
       position: "fixed", //  Stay in place
       zIndex: 1, //  Sit on top
       left: 0,
@@ -46,39 +49,38 @@ class Modal {
     }
   }
   set styles(value) {
-    if (value && !this.onoff && this.selector) {
+    if (value && this.target) {
       for (var key in value) {
-        this.selector.style[key] = value[key];
+        this.target.style[key] = value[key];
       }
     }
   }
-  getType(obj) {
-    return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();
-  }
   stylize() {
-    if (this.onoff && this.getType(this.onoff) == "boolean") return;
-    if (this.selector) {
+    if (this.target && this.boolStr=="false") {
       for (var key in this.styles) {
-        this.selector.style[key] = this.styles[key];
+        this.target.style[key] = this.styles[key];
       }
     }
   }
   onclick() {
-    if (!this.selector && this.getType(this.callback) == "string") {
-      document.querySelector(this.callback).style.display = "none";
-      return;
-    }
-    if (this.getType(this.callback) == "function") this.callback();
-    this.selector.addEventListener("click", function (event) {
-      event.stopImmediatePropagation();
-      if (self_modal.getType(self_modal.callback) == "function") self_modal.callback();
-      if (self_modal.getType(self_modal.onoff) !== "boolean") return;
-      if (self_modal.onoff) return;
-      if (self_modal.selector == event.target) self_modal.selector.style.display = "none";
-    }, false)
+    this.event.stopImmediatePropagation();
+    if(this.selfClicked && this.boolStr == "true") return; 
+    if(this.selfClicked && this.boolStr == "false") this.target.style.display = "none"
+    if(!this.selfClicked) {
+      if(this.boolStr == "false") {this.target.style.display = "block";}
+      if(this.boolStr == "null") {this.target.style.display = "none";}
+    };
   }
   onInit() {
     this.onclick();
     this.stylize();
   }
 }
+window.addEventListener("DOMContentLoaded", function(){
+  let target = document.querySelectorAll("[data-modal]");
+  target.forEach(c=>{
+    c.addEventListener("click", function(event){
+      new Modal(event)
+    }, false)
+  });
+})
