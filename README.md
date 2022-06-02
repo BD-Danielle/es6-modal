@@ -1,7 +1,7 @@
  #  js-modal
  ###  LAYOUT
  ```html
-  <btn-element data-modal="modal-box" data-bool="true"></btn-element>
+  <btn-element data-modal="modal-box" data-bool="false"></btn-element>
   <outside-element id="modal-box" data-modal="modal-box" data-bool="true" style="display: none;">
     <inside-element-optional id="modal-content" data-modal="modal-content" data-bool="true">
       <btn-close data-modal="modal-box" data-bool="null"></btn-close>
