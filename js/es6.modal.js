@@ -70,6 +70,7 @@ class Modal {
       document.body.style.overflow="auto";
     }
     if(!this.selfClicked) {
+<<<<<<< HEAD
       if(this.boolStr == "false") {
         this.target.style.display = "block";
         document.body.style.overflow = "hidden";
@@ -78,6 +79,10 @@ class Modal {
         this.target.style.display = "none";
         document.body.style.overflow="auto";
       }
+=======
+      if(this.boolStr == "false") this.target.style.display = "block";
+      if(this.boolStr == "null") this.target.style.display = "none";
+>>>>>>> f94a001d1734cf158c029521dbfdf797d8b1f4b9
     };
   }
   onInit() {
