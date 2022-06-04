@@ -24,13 +24,13 @@ class Modal {
     return this.event.srcElement.dataset.modal;
   }
   get boolStr(){
-    return this.event.srcElement.dataset.bool || this.event.srcElement.offsetParent.dataset.bool;
+    return this.event.srcElement.dataset.bool;
   }
   get id(){
     return this.event.srcElement.id;
   }
   get target() {
-    return document.querySelector(`#${this.modal}`) || this.event.srcElement.offsetParent;
+    return document.querySelector(`#${this.modal}`);
   }
   get selfClicked(){
     return this.id == this.modal;
@@ -65,10 +65,19 @@ class Modal {
   onclick() {
     this.event.stopImmediatePropagation();
     if(this.selfClicked && this.boolStr == "true") return; 
-    if(this.selfClicked && this.boolStr == "false") this.target.style.display = "none"
+    if(this.selfClicked && this.boolStr == "false") {
+      this.target.style.display = "none";
+      document.body.style.overflow="auto";
+    }
     if(!this.selfClicked) {
-      if(this.boolStr == "false") {this.target.style.display = "block";}
-      if(this.boolStr == "null") {this.target.style.display = "none";}
+      if(this.boolStr == "false") {
+        this.target.style.display = "block";
+        document.body.style.overflow = "hidden";
+      }
+      if(this.boolStr == "null") {
+        this.target.style.display = "none";
+        document.body.style.overflow="auto";
+      }
     };
   }
   onInit() {
@@ -76,11 +85,3 @@ class Modal {
     this.stylize();
   }
 }
-window.addEventListener("DOMContentLoaded", function(){
-  let target = document.querySelectorAll("[data-modal]");
-  target.forEach(c=>{
-    c.addEventListener("click", function(event){
-      new Modal(event)
-    }, false)
-  });
-})
