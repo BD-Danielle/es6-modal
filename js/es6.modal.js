@@ -66,16 +66,16 @@ class Modal {
     this.event.stopImmediatePropagation();
     if(this.selfClicked && this.boolStr == "true") return; 
     if(this.selfClicked && this.boolStr == "false") {
-      this.target.style.display = "none";
+      this.target.style.setProperty("display", "none", "important");
       document.body.style.overflow="auto";
     }
     if(!this.selfClicked) {
       if(this.boolStr == "false") {
-        this.target.style.display = "block";
+        this.target.style.setProperty("display", "block", "important");
         document.body.style.overflow = "hidden";
       }
       if(this.boolStr == "null") {
-        this.target.style.display = "none";
+        this.target.style.setProperty("display", "none", "important");
         document.body.style.overflow="auto";
       }
     };
