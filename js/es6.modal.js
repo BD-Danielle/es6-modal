@@ -68,15 +68,22 @@ class Modal {
     if(this.selfClicked && this.boolStr == "false") {
       this.target.style.setProperty("display", "none", "important");
       document.body.style.overflow="auto";
+      document.body.style.touchAction = "auto";
+      document.body.style.position = "unset";
+
     }
     if(!this.selfClicked) {
       if(this.boolStr == "false") {
         this.target.style.setProperty("display", "block", "important");
         document.body.style.overflow = "hidden";
+        document.body.style.touchAction = "none";
+        document.body.style.position = "fixed";
       }
       if(this.boolStr == "null") {
         this.target.style.setProperty("display", "none", "important");
         document.body.style.overflow="auto";
+        document.body.style.touchAction = "auto";
+        document.body.style.position = "unset";
       }
     };
   }
