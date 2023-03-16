@@ -20,19 +20,19 @@ class Modal {
     this.event = event;
     this.onInit();
   }
-  get modal(){
+  get modal() {
     return this.event.srcElement.dataset.modal;
   }
-  get boolStr(){
+  get boolStr() {
     return this.event.srcElement.dataset.bool;
   }
-  get id(){
+  get id() {
     return this.event.srcElement.id;
   }
   get target() {
     return document.querySelector(`#${this.modal}`);
   }
-  get selfClicked(){
+  get selfClicked() {
     return this.id == this.modal;
   }
   get styles() {
@@ -46,7 +46,7 @@ class Modal {
       overflow: "auto", //  Enable scroll if needed
       backgroundColor: "rgb(0,0,0)", //  Fallback color
       backgroundColor: "rgba(0,0,0,0.7)" // Black w/ opacity
-    }
+    };
   }
   set styles(value) {
     if (value && this.target) {
@@ -55,11 +55,12 @@ class Modal {
       }
     }
   }
-  get mobile(){
-    return /Mobi/i.test(window.navigator.userAgent);
+  get mobile() {
+    return (/Mobi/i.test(window.navigator.userAgent)
+    );
   }
   stylize() {
-    if (this.target && this.boolStr=="false") {
+    if (this.target && this.boolStr == "false") {
       for (var key in this.styles) {
         this.target.style[key] = this.styles[key];
       }
@@ -67,26 +68,25 @@ class Modal {
   }
   onclick() {
     this.event.stopImmediatePropagation();
-    if(this.selfClicked && this.boolStr == "true") return; 
-    if(this.selfClicked && this.boolStr == "false") {
+    if (this.selfClicked && this.boolStr == "true") return;
+    if (this.selfClicked && this.boolStr == "false") {
       this.target.style.setProperty("display", "none", "important");
-      document.body.style.overflow="auto";
+      document.body.style.overflow = "auto";
       document.body.style.touchAction = "auto";
-      if(this.mobile) document.body.style.height = "auto";
-
+      if (this.mobile) document.body.style.height = "auto";
     }
-    if(!this.selfClicked) {
-      if(this.boolStr == "false") {
+    if (!this.selfClicked) {
+      if (this.boolStr == "false") {
         this.target.style.setProperty("display", "block", "important");
         document.body.style.overflow = "hidden";
         document.body.style.touchAction = "none";
-        if(this.mobile) document.body.style.height = window.innerHeight + "px";
+        if (this.mobile) document.body.style.height = window.innerHeight + "px";
       }
-      if(this.boolStr == "null") {
+      if (this.boolStr == "null") {
         this.target.style.setProperty("display", "none", "important");
-        document.body.style.overflow="auto";
+        document.body.style.overflow = "auto";
         document.body.style.touchAction = "auto";
-        if(this.mobile) document.body.style.height = "auto";
+        if (this.mobile) document.body.style.height = "auto";
       }
     };
   }
