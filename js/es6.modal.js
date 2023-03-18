@@ -1,6 +1,6 @@
 /*
  * ========================================================================
- * Modal 1.1.1
+ * Modal 1.1.2
  * A modal is a dialog box/popup window that is displayed on top of the current page.
  * YILING CHEN.
  * Copyright 2022, MIT License.
@@ -69,21 +69,20 @@ class Modal {
     this.event.stopImmediatePropagation();
     if(this.selfClicked && this.boolStr == "true") return; 
     if(this.selfClicked && this.boolStr == "false") {
-      this.target.style.setProperty("display", "none", "important");
+      this.target.style.setProperty("display", "none");
       document.body.style.overflow="auto";
       document.body.style.touchAction = "auto";
       if(this.mobile) document.body.style.height = "auto";
-
     }
     if(!this.selfClicked) {
       if(this.boolStr == "false") {
-        this.target.style.setProperty("display", "block", "important");
+        this.target.style.setProperty("display", "block");
         document.body.style.overflow = "hidden";
         document.body.style.touchAction = "none";
         if(this.mobile) document.body.style.height = window.innerHeight + "px";
       }
       if(this.boolStr == "null") {
-        this.target.style.setProperty("display", "none", "important");
+        this.target.style.setProperty("display", "none");
         document.body.style.overflow="auto";
         document.body.style.touchAction = "auto";
         if(this.mobile) document.body.style.height = "auto";
