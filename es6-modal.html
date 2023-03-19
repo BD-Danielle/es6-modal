@@ -22,7 +22,7 @@
     cursor: pointer;
   }
   #modal-box{
-    display: block !important;
+    display: block;
     z-index: 1000;
     background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
@@ -32,13 +32,10 @@
     height: 100%;
     overflow: auto;
   }
-  #modal-content {
-    display: block;
-  }
 </style>
 
 <body>
-  <div class="btn" data-modal="modal-box" data-bool="false" onclick="(function(){console.log(this)})();">點我出現屏障</div>
+  <div class="btn" data-modal="modal-box" data-bool="false" onclick="(()=>{console.log(this)})();">點我出現屏障</div>
   <div id="modal-box" style="display: block;" data-modal="modal-box" data-bool="true">
     <div id="modal-content" data-modal="modal-content" data-bool="true"
       class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
