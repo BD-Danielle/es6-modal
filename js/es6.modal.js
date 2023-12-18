@@ -94,3 +94,5 @@ class Modal {
     this.stylize();
   }
 }
+window.vpModal = vpModal;
+window.Modal = Modal;

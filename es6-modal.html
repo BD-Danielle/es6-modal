@@ -6,7 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <script src="./js/es6.modal.js"></script>
+  <script src="./js/webpack/es6.modal.bundle1.1.3.js"></script>
+  <!-- <script src="./js/es6.modal1.1.3.js"></script> -->
   <title>es6-modal</title>
 </head>
 <style>
@@ -31,6 +32,9 @@
     width: 100%;
     height: 100%;
     overflow: auto;
+  }
+  #modal-content {
+    display: block;
   }
 </style>
 
@@ -75,7 +79,7 @@
         // it's allowed to custom css style
         modal.styles = {
           zIndex: 1000,
-          backgroundColor: "rgba(0,0,0,0.5)",
+          backgroundColor: "rgba(0,0,0,0.1)",
         }
       }, false)
     });
