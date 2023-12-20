@@ -1,6 +1,6 @@
 {
   "name": "Modal",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "A modal is a dialog box/popup window that is displayed on top of the current page",
   "main": "index.js",
   "scripts": {

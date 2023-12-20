@@ -1,5 +1,5 @@
 
-# Modal 1.1.2
+# Modal 1.1.3
 
 ## Overview
 `Modal` is a lightweight JavaScript class for creating modal dialog boxes/popup windows that overlay on top of the current page. It's designed for flexibility and ease of use, making it suitable for a wide range of applications.

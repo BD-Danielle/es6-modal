@@ -1,5 +1,5 @@
 /**
- * Modal 1.1.2
+ * Modal 1.1.3
  * A modal is a dialog box/popup window that is displayed on top of the current page.
  * YILING CHEN.
  * Copyright 2022, MIT License.
@@ -8,11 +8,11 @@
  */
 
 class Modal {
+  static version = "1.1.3";
   constructor(event) {
     this.event = event;
     this.initModal();
   }
-
   get modalElement() {
     return this.event.target.dataset.modal;
   }
