@@ -15,7 +15,7 @@ MIT License, 2022.
 To use the `Modal` class, simply include the JavaScript file in your project.
 
 ```html
-<script src="est.modal.bundle.1.1.3.js"></script>
+<script src="es6.modal.bundle.1.1.3.js"></script>
 ```
 
 ## Usage
