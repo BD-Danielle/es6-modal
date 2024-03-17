@@ -11,6 +11,11 @@ class Modal {
   static version = "1.1.3";
   constructor(event) {
     this.event = event;
+    // 确保 modalElement 存在
+    if (!this.modalElement) {
+      console.error("Modal element is undefined, event:", event);
+      return; // 早期返回，避免进一步执行
+    }
     this.initModal();
   }
   get modalElement() {
@@ -83,7 +88,11 @@ class Modal {
 
   initModal() {
     this.event.stopImmediatePropagation();
-    this.event.preventDefault()
+    this.event.preventDefault();
+    if (!this.targetElement) {
+      // console.error("Target element does not exist for modal:", this.modalElement);
+      return; // 防止继续执行并抛出错误
+    }
     this.handleModalDisplay();
   }
 }
