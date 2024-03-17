@@ -13,7 +13,7 @@ class Modal {
     this.event = event;
     // 确保 modalElement 存在
     if (!this.modalElement) {
-      console.error("Modal element is undefined, event:", event);
+      // console.error("Modal element is undefined, event:", event);
       return; // 早期返回，避免进一步执行
     }
     this.initModal();
