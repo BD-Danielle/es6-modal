@@ -9,8 +9,21 @@
 
 class Modal {
   static version = "1.1.3";
-  constructor(event) {
+  constructor(event, customStyles = {}) {
     this.event = event;
+    this.defaultStyles = {
+      position: "fixed",
+      zIndex: 99,
+      left: 0,
+      top: 0,
+      width: "100%",
+      height: "100%",
+      overflow: "auto",
+      backgroundColor: "rgba(0,0,0,0.5)",
+      display: "block"
+    };
+    // 合并自定义样式和默认样式
+    this.modalStyles = { ...this.defaultStyles, ...customStyles };
     // 确保 modalElement 存在
     if (!this.modalElement) {
       // console.error("Modal element is undefined, event:", event);
@@ -43,18 +56,7 @@ class Modal {
   }
 
   showModal() {
-    const modalStyles = {
-      position: "fixed",
-      zIndex: 99,
-      left: 0,
-      top: 0,
-      width: "100%",
-      height: "100%",
-      overflow: "auto",
-      backgroundColor: "rgba(0,0,0,0.5)",
-      display: "block"
-    };
-    this.applyStyles(this.targetElement, modalStyles);
+    this.applyStyles(this.targetElement, this.modalStyles);
     document.body.style.overflow = "hidden";
     document.body.style.touchAction = "none";
     if (this.isMobile) {

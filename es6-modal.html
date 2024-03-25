@@ -22,7 +22,8 @@
     border-radius: 5px;
     cursor: pointer;
   }
-  #modal-box{
+
+  #modal-box {
     display: block;
     z-index: 1000;
     background-color: rgba(0, 0, 0, 0.5);
@@ -33,6 +34,7 @@
     height: 100%;
     overflow: auto;
   }
+
   #modal-content {
     display: block;
   }
@@ -44,8 +46,8 @@
     <div id="modal-content" data-modal="modal-content" data-bool="true"
       class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
       <div class="w3-center"><br>
-        <span class="w3-button w3-xlarge w3-transparent w3-display-topright"
-          data-modal="modal-box" data-bool="null" title="Close Modal">×</span>
+        <span class="w3-button w3-xlarge w3-transparent w3-display-topright" data-modal="modal-box" data-bool="null"
+          title="Close Modal">×</span>
         <img src="img_avatar4.png" alt="Avatar" style="width:30%" class="w3-circle w3-margin-top">
       </div>
 
@@ -70,20 +72,21 @@
   </div>
 </body>
 <script type="text/javascript">
-  window.addEventListener("DOMContentLoaded", function(){
+  // 使用示例
+  document.addEventListener("DOMContentLoaded", function () {
     let targets = document.querySelectorAll("[data-modal]");
-    let modal;
-    targets.forEach(c=>{
-      c.addEventListener("click", function(event){
-        modal = new Modal(event);
-        // it's allowed to custom css style
-        modal.styles = {
-          zIndex: 1000,
-          backgroundColor: "rgba(0,0,0,0.1)",
-        }
-      }, false)
+    targets.forEach(target => {
+      target.addEventListener("click", function (event) {
+        // 创建 Modal 实例时，可以传递自定义样式
+        let modal = new Modal(event, {
+          backgroundColor: "rgba(0,0,0,0.8)", // 自定义样式示例
+          zIndex: 2000
+          // 可以添加更多自定义样式
+        });
+      }, false);
     });
-  })
+  });
 
 </script>
+
 </html>
