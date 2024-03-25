@@ -28,12 +28,11 @@ window.addEventListener("DOMContentLoaded", function(){
   let modal;
   targets.forEach(c=>{
     c.addEventListener("click", function(event){
-      modal = new Modal(event);
-      // it's allowed to custom css style
-      modal.styles = {
-        zIndex: 1000,
-        backgroundColor: "rgba(0,0,0,0.1)",
-      }
+      modal = new Modal(event, {
+        backgroundColor: "rgba(0,0,0,0.8)", // 自定义样式示例
+        zIndex: 2000
+        // 可以添加更多自定义样式
+      });
     }, false)
   });
 })
