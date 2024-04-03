@@ -1,11 +1,12 @@
 const path = require('path');
+const package = require('./package.json'); // 引入package.json文件
 
 module.exports = {
   mode: 'production', //development
-  entry: './js/es6.modal1.1.3.js',
+  entry: `./js/${package.name}${package.version}.js`, // 动态设置入口文件
   output: {
     path: path.resolve(__dirname, './js/webpack'),
-    filename: 'es6.modal.bundle1.1.3.js'
+    filename: `${package.name}.bundle${package.version}.js` // 动态设置输出文件名
   },
   module: {
     rules: [
