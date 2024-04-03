@@ -1,5 +1,5 @@
 
-# Modal 1.1.3
+# Modal 1.2.0
 
 ## Overview
 `Modal` is a lightweight JavaScript class for creating modal dialog boxes/popup windows that overlay on top of the current page. It's designed for flexibility and ease of use, making it suitable for a wide range of applications.
@@ -15,7 +15,7 @@ MIT License, 2022.
 To use the `Modal` class, simply include the JavaScript file in your project.
 
 ```html
-<script src="es6.modal.bundle.1.1.3.js"></script>
+<script src="es6.modal.bundle.1.2.0.js"></script>
 ```
 
 ## Usage
@@ -71,10 +71,10 @@ Include a simple implementation example here to help users get started.
 
 ```html
 <!-- Your example HTML goes here -->
-  <div class="btn" data-modal="modal-box" data-bool="false" onclick="(()=>{console.log(this)})();">點我出現屏障</div>
-  <div id="modal-box" style="display: block;" data-modal="modal-box" data-bool="true">
-    <div id="modal-content" data-modal="modal-content" data-bool="true">
-      <div><button type="button" data-modal="modal-box" data-bool="null">Cancel</button></div>
+  <div class="btn" data-modal="modal-box" data-action="trigger" onclick="(()=>{console.log(this)})();">點我出現屏障</div>
+  <div id="modal-box" style="display: block;" data-modal="modal-box" data-action="show">
+    <div id="modal-content" data-modal="modal-content" data-action="show">
+      <div><button type="button" data-modal="modal-box" data-action="hide">Cancel</button></div>
     </div>
   </div>
 ```
