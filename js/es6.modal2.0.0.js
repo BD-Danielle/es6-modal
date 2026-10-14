@@ -4,12 +4,47 @@
  */
 class Modal {
   static version = "2.0.0";
+  // 1. 將預設 CSS 樣式封裝在 Class 的靜態屬性中
+  static DEFAULT_STYLES = `
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px);
+      display: flex; justify-content: center; align-items: center;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease; z-index: 999;
+    }
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+    
+    .modal-card {
+      background: #ffffff; width: 90%; max-width: 500px; max-height: 85vh;
+      border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+      display: flex; flex-direction: column; overflow: hidden;
+      transform: scale(0.85) translateY(20px); opacity: 0;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+      will-change: transform, opacity;
+    }
+    .modal-overlay.active .modal-card { transform: scale(1) translateY(0); opacity: 1; }
+    .modal-body { max-height: 80vh; overflow-y: auto; overscroll-behavior: contain; }
+  `;
+
+  // 2. 自動注入樣式的靜態方法
+  static injectStyles() {
+    // 檢查是否已注入過，防範重複掛載
+    if (document.getElementById('modal-auto-styles')) return;
+
+    const style = document.createElement('style');
+    style.id = 'modal-auto-styles';
+    style.textContent = Modal.DEFAULT_STYLES;
+    document.head.appendChild(style);
+  }
 
   /**
    * 一鍵啟動全域事件委派 (Zero Config)
    * 頁面只需呼叫一次 Modal.init()，即可自動接管所有 data-modal 標籤
    */
   static init() {
+    // 🌟 一氣呵成：初始化時自動注入 CSS 樣式！
+    Modal.injectStyles();
     // 1. 全域點擊事件委派 (開啟/關閉)
     document.addEventListener('click', (e) => {
       // 處理「開啟/觸發按鈕」 (利用 closest 防範點擊到按鈕內部的 icon/span)
