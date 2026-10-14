@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <!-- <script src="./js/webpack/es6.modal.bundle1.2.0.js"></script> -->
+  <script src="./js/es6.modal2.0.0.js"></script>
+  <title>es6-modal</title>
+</head>
+<style>
+  /* ==========================================
+       1. 全域與底層頁面樣式 (模擬長捲軸頁面)
+       ========================================== */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f6f9;
+    color: #333;
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  h1 {
+    margin-bottom: 15px;
+    color: #1a202c;
+  }
+
+  p {
+    margin-bottom: 20px;
+    color: #4a5568;
+  }
+
+  .btn-open {
+    padding: 12px 24px;
+    background-color: #3182ce;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .btn-open:hover {
+    background-color: #2b6cb0;
+  }
+
+  /* 模擬長文章區域 */
+  .dummy-content {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .dummy-paragraph {
+    background: #edf2f7;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 4px solid #3182ce;
+    border-radius: 4px;
+  }
+
+  /* ==========================================
+       2. Modal 彈窗雙防線 CSS 樣式
+       ========================================== */
+
+  /* 全域背景遮罩層 (Overlay) */
+  /* ==========================================
+   1. 背景遮罩層 (Fade In / Fade Out)
+   ========================================== */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    /* 現代毛玻璃質感 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* 🌟 初始隱藏狀態 */
+    opacity: 0;
+    visibility: hidden;
+
+    /* 設定 opacity 與 visibility 的過渡時間 */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 999;
+  }
+
+  /* 🌟 開啟時淡入 (Active) */
+  .modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+
+  /* ==========================================
+   2. 卡片主體 (Pop & Bounce 彈跳縮放效果)
+   ========================================== */
+  .modal-card {
+    background: #ffffff;
+    width: 90%;
+    max-width: 500px;
+    max-height: 85vh;
+    border-radius: 16px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    /* 🌟 關閉時的預設狀態：縮小成 85% 並向下偏移 20px */
+    transform: scale(0.85) translateY(20px);
+    opacity: 0;
+
+    /* 
+   * 🌟 靈魂所在：cubic-bezier(0.34, 1.56, 0.64, 1) 
+   * 這是一種微彈跳（Back/Bounce Out）曲線，能產生放大超過 100% 再回彈回來的自然 Q 彈感！
+   */
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+      opacity 0.25s ease;
+
+    will-change: transform, opacity;
+    /* 告訴瀏覽器開啟 GPU 硬體加速 */
+  }
+
+  /* 🌟 開啟時縮放彈回原位 (Active) */
+  .modal-overlay.active .modal-card {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+
+
+  /* Modal 標頭 */
+  .modal-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid #edf2f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2d3748;
+  }
+
+  .btn-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #a0aec0;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .btn-close:hover {
+    color: #4a5568;
+  }
+
+  /* 🌟 第一道防線：Modal 可滾動內容區域 */
+  .modal-body {
+    padding: 24px;
+    overflow-y: auto;
+    /* 啟用內部滾動條 */
+
+    /* 核心 CSS 屬性：切斷滾動邊界傳播鏈，防止滾動連鎖至背景頁面 */
+    overscroll-behavior: contain;
+  }
+
+  /* Modal 頁尾 */
+  .modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #edf2f7;
+    background-color: #f7fafc;
+    text-align: right;
+  }
+
+  .btn-secondary {
+    padding: 8px 16px;
+    background-color: #e2e8f0;
+    color: #4a5568;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .btn-secondary:hover {
+    background-color: #cbd5e0;
+  }
+</style>
+
+<body>
+  <!-- 1. 觸發按鈕 (內部有 <i> 或 <span> 也能完美觸發) -->
+
+  <!-- 2. Modal 結構 -->
+  <div id="myModal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>彈窗標題</h2>
+        <button class="btn-close" data-modal-close>&times;</button>
+      </div>
+
+      <!-- 內容區域 -->
+      <!-- 可滾動內容區域 -->
+      <div class="modal-body">
+        <p><b>一、 滾動鎖定機制說明</b></p>
+        <p>本彈窗使用了 CSS <code>overscroll-behavior: contain;</code>，當您將這段內容滾動到最底端或最頂端時，瀏覽器會自動切斷邊界傳輸，防止背景網頁產生滾動連鎖。</p>
+        <br>
+        <p><b>二、 { passive: false } 事件攔截機制</b></p>
+        <p>針對手機觸控滑動（Touchmove）或電腦滾輪（Wheel）事件，我們在 JS 監聽器中傳入 <code>{ passive: false }</code>，確保背景遮罩層能完全攔截預設滾動行為。</p>
+        <br>
+        <p><b>三、 長文字測試段落 1</b></p>
+        <p>這是為了產生內部滾動條而設計的長內容段落。請嘗試在電腦上使用滾輪滾動，或在手機上記進行觸控滑動。</p>
+        <br>
+        <p><b>四、 長文字測試段落 2</b></p>
+        <p>繼續往下滑動，當滑動到最底端時，請特別觀察背景頁面，背景頁面完全不會移動或產生 iOS 橡皮筋彈跳現象。</p>
+        <br>
+        <p><b>五、 長文字測試段落 3</b></p>
+        <p>感謝您的測試！您現在已經成功到達內容的最底部。</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" data-modal-close>關閉彈窗</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container">
+    <h1>Modal 防背景滾動展示頁面</h1>
+    <p>請點擊下方按鈕開啟對話框。開啟後，無論在 Modal 內部滾動到底部，還是在背景遮罩上滑動手指，底層網頁均<b>完全不會發生滾動連鎖（Scroll Chaining）</b>！</p>
+
+    <button data-modal-target="#myModal" class="btn-open">開啟對話框</button>
+
+    <div class="dummy-content">
+      <h3>背景頁面長內容（用於測試背景是否會跟著滾動）</h3>
+      <div class="dummy-paragraph">段落 1：向下捲動此頁面，確保背景有足夠高度可供測試...</div>
+      <div class="dummy-paragraph">段落 2：向下捲動此頁面，確保背景有足夠高度可供測試...</div>
+      <div class="dummy-paragraph">段落 3：向下捲動此頁面，確保背景有足夠高度可供測試...</div>
+      <div class="dummy-paragraph">段落 4：向下捲動此頁面，確保背景有足夠高度可供測試...</div>
+      <div class="dummy-paragraph">段落 5：向下捲動此頁面，確保背景有足夠高度可供測試...</div>
+      <div class="dummy-paragraph">段落 6：向下捲動此頁面，確保背景有足夠高度可供測試...</div>
+      <div class="dummy-paragraph">段落 7：向下捲動此頁面，確保背景有足夠高度可供測試...</div>
+      <div class="dummy-paragraph">段落 8：向下捲動此頁面，確保背景有足夠高度可供測試...</div>
+      <div class="dummy-paragraph">段落 9：向下捲動此頁面，確保背景有足夠高度可供測試...</div>
+      <div class="dummy-paragraph">段落 10：向下捲動此頁面，確保背景有足夠高度可供測試...</div>
+      <div class="dummy-paragraph">段落 11：向下捲動此頁面，確保背景有足夠高度可供測試...</div>
+      <div class="dummy-paragraph">段落 12：向下捲動此頁面，確保背景有足夠高度可供測試...</div>
+      <div class="dummy-paragraph">段落 13：向下捲動此頁面，確保背景有足夠高度可供測試...</div>
+      <div class="dummy-paragraph">段落 14：向下捲動此頁面，確保背景有足夠高度可供測試...</div>
+      <div class="dummy-paragraph">段落 15：向下捲動此頁面，確保背景有足夠高度可供測試...</div>
+    </div>
+  </div>
+  <script>
+    // 頁面載入後自動啟動，未來動態新增的 Modal 按鈕也能自動生效！
+    Modal.init();
+  </script>
+</body>
+
+</html>
